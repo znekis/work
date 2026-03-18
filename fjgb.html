@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobSpace | Работодатели</title>
+    <style>
+        /* Импорт шрифтов */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Шапка сайта */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .nav-links a.active {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        /* Главный баннер (Hero) */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .search-box {
+            background: white;
+            border-radius: 50px;
+            padding: 0.5rem;
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .search-box input {
+            flex: 1;
+            border: none;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 50px;
+            outline: none;
+        }
+
+        .search-box button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .search-box button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Статистика */
+        .stats {
+            background: white;
+            padding: 3rem 2rem;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        /* Основной контент */
+        .main-content {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* Фильтры */
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.8rem 1.5rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 30px;
+            background: white;
+            color: #666;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: transparent;
+        }
+
+        /* Сетка карточек */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+        }
+
+        .card-header {
+            height: 120px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            position: relative;
+            padding: 1.5rem;
+            color: white;
+        }
+
+        .card:nth-child(2) .card-header {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+        }
+
+        .card:nth-child(3) .card-header {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+        }
+
+        .card:nth-child(4) .card-header {
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+        }
+
+        .card:nth-child(5) .card-header {
+            background: linear-gradient(135deg, #fa709a, #fee140);
+        }
+
+        .card:nth-child(6) .card-header {
+            background: linear-gradient(135deg, #30cfd0, #330867);
+        }
+
+        .card-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-header .location {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            background: #f0f0f0;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: #555;
+            transition: all 0.3s;
+        }
+
+        .tag:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .card-desc {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #eee;
+            padding-top: 1rem;
+        }
+
+        .rating {
+            color: #ffc107;
+        }
+
+        .jobs-count {
+            background: #e8f0fe;
+            color: #667eea;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 600px;
+            margin: 50px auto;
+            border-radius: 20px;
+            position: relative;
+            animation: slideUp 0.3s ease;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .modal-close {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: white;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .info-block {
+            margin-bottom: 1.5rem;
+        }
+
+        .info-block h4 {
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .info-block p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            background: #f0f0f0;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #555;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .specs-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .spec-item {
+            background: #e8f0fe;
+            color: #667eea;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+        }
+
+        .values-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .value-item {
+            background: #f0f0f0;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .mission-box {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            font-style: italic;
+            color: #555;
+        }
+
+        /* Подвал */
+        .footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 3rem 2rem 1rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .footer-col h4 {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-col ul li a {
+            color: #999;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-col ul li a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
+            color: #999;
+        }
+
+        /* Анимации */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                margin: 20px;
+                width: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .search-box {
+                flex-direction: column;
+                background: transparent;
+                gap: 1rem;
+            }
+
+            .search-box input,
+            .search-box button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">ЦентрРаботы</div>
+            <div class="nav-links">
+                <a href="#" class="active">Главная</a>
+                <a href="#">Работодатели</a>
+                <a href="#">Вакансии</a>
+                <a href="#">О нас</a>
+                <a href="#">Контакты</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Главный баннер -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Найди работу мечты</h1>
+            <p>Более 100+ компаний доверяют нам. Присоединяйся к лучшим!</p>
+            <div class="search-box">
+                <input type="text" placeholder="Поиск работодателей..." id="searchInput">
+                <button onclick="searchCompanies()">Найти</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Статистика -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Компаний</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">100+</div>
+                <div class="stat-label">Вакансий</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Специальностей</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">95%</div>
+                <div class="stat-label">Успешных наймов</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Основной контент -->
+    <main class="main-content">
+        <div class="section-title">
+            <h2>Наши работодатели</h2>
+            <p></p>
+        </div>
+
+        <!-- Фильтры -->
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterCompanies('all')">Все</button>
+            <button class="filter-btn" onclick="filterCompanies('kindergarten')">Детские сады</button>
+            <button class="filter-btn" onclick="filterCompanies('school')">Школы</button>
+            <button class="filter-btn" onclick="filterCompanies('web')">Веб-студии</button>
+        </div>
+
+        <!-- Сетка карточек -->
+        <div class="cards-grid" id="cardsGrid"></div>
+    </main>
+
+    <!-- Подвал -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>ЦентрРаботы</h4>
+                <ul>
+                    <li><a href="#">О нас</a></li>
+                    <li><a href="#">Карьера</a></li>
+                    <li><a href="#">Блог</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Работодателям</h4>
+                <ul>
+                    <li><a href="#">Разместить вакансию</a></li>
+                    <li><a href="#">Поиск сотрудников</a></li>
+                    <li><a href="#">Тарифы</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Соискателям</h4>
+                <ul>
+                    <li><a href="#">Вакансии</a></li>
+                    <li><a href="#">Компании</a></li>
+                    <li><a href="#">Советы</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Контакты</h4>
+                <ul>
+                    <li><a href="#">support@.ru</a></li>
+                    <li><a href="#">+7 (999) 123-45-67</a></li>
+                    <li><a href="#">г. Тольятти, ул. Мира, 63</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 ЦентрРаботы. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <!-- Модальное окно -->
+    <div class="modal" id="companyModal">
+        <div class="modal-content">
+            <div class="modal-header" id="modalHeader">
+                <span class="modal-close" onclick="closeModal()">×</span>
+                <h2 id="modalTitle">Название компании</h2>
+                <p id="modalLocation">Расположение</p>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Контент будет добавлен через JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Данные компаний
+        const companies = [
+            {
+                id: 1,
+                name: "Детский сад №147",
+                location: "Комсомольский р-н",
+                shortDesc: "Муниципальный детский сад с билингвальными группами",
+                fullDesc: "Муниципальное бюджетное дошкольное образовательное учреждение 'Детский сад №15'. Работаем с 1985 года. Современные методики, билингвальные группы для детей 3–7 лет.",
+                type: "kindergarten",
+                tags: ["педагоги", "психологи", "логопеды"],
+                rating: 4.8,
+                jobs: 12,
+                website: "https://example.com/romashka",
+                social: {
+                    vk: "",
+                    tg: ""
+                },
+                specialities: ["Воспитатель", "Психолог", "Логопед", "Музыкальный руководитель"],
+                values: ["Забота о детях", "Развитие", "Индивидуальный подход", "Экологичность"],
+                mission: "Создаём пространство для счастливого детства и гармоничного развития личности.",
+                extra: "Есть корпоративный детский сад для сотрудников, оплата проезда, гибкий график."
+            },
+            {
+                id: 2,
+                name: "Школа №6",
+                location: "Комсомольский р-н",
+                shortDesc: "Углубленное изучение физики и математики",
+                fullDesc: "Средняя общеобразовательная школа с углублённым изучением физики и математики. Технопарк 'Кванториум' на базе школы.",
+                type: "school",
+                tags: ["учителя", "IT-специалисты"],
+                rating: 4.9,
+                jobs: 8,
+                website: "https://example.com/school73",
+                social: {
+                    vk: "",
+                    tg: ""
+                },
+                specialities: ["Учитель физики", "Учитель информатики", "Педагог доп. образования", "Системный администратор"],
+                values: ["Наука", "Доступность", "Инновации", "Уважение"],
+                mission: "Воспитываем инженеров будущего с широким кругозором.",
+                extra: "Активная проектная деятельность, стипендии для молодых учителей, современное оборудование."
+            },
+            {
+                id: 3,
+                name: "Веб-студия TLTpro",
+                location: "Удаленно",
+                shortDesc: "Разработка интерфейсов и приложений",
+                fullDesc: "Продуктовая веб-студия, специализируемся на сложных интерфейсах для EdTech и финтеха.",
+                type: "web",
+                tags: ["frontend", "backend", "QA"],
+                rating: 5.0,
+                jobs: 15,
+                website: "https://example.com/pixel",
+                social: {
+                    vk: "",
+                    tg: ""
+                },
+                specialities: ["Frontend-разработчик", "Backend-разработчик", "QA-инженер", "Team lead"],
+                values: ["Качество кода", "Открытость", "Самообучение", "Юмор"],
+                mission: "Создаём цифровые продукты, которыми удобно пользоваться.",
+                extra: "Гибкий график, удалёнка, ДМС, пятничные митапы, библиотека профессиональной литературы."
+            },
+            {
+                id: 4,
+                name: "Детский сад Сосенка",
+                location: "Комсомольский р-н",
+                shortDesc: "Частный монтессори-сад",
+                fullDesc: "Семейный детский сад с монтессори-педагогикой. Малочисленные группы (до 10 человек), здоровое питание.",
+                type: "kindergarten",
+                tags: ["воспитатели", "тьюторы"],
+                rating: 4.7,
+                jobs: 5,
+                website: "https://example.com/sun",
+                social: {
+                    vk: "",
+                    instagram: ""
+                },
+                specialities: ["Монтессори-педагог", "Ассистент воспитателя", "Психолог", "Музыкальный руководитель"],
+                values: ["Свобода", "Уважение к ребенку", "Творчество", "Природа"],
+                mission: "Помогаем детям расти самостоятельными и счастливыми.",
+                extra: "Оплачиваем обучение сотрудников по Монтессори, большая зеленая территория."
+            },
+            {
+                id: 5,
+                name: "СтудияСайтов",
+                location: "Удаленно / Тольятти",
+                shortDesc: "Веб-студия полного цикла",
+                fullDesc: "Интеграции, CRM, высоконагруженные сайты для образования. Команда 20+ человек.",
+                type: "web",
+                tags: ["python", "vue", "devops"],
+                rating: 4.9,
+                jobs: 10,
+                website: "https://example.com/codecraft",
+                social: {
+                    vk: "",
+                    tg: ""
+                },
+                specialities: ["Python-разработчик", "Vue.js разработчик", "DevOps", "Project manager"],
+                values: ["Честность", "Профессионализм", "Семья", "Постоянный рост"],
+                mission: "Делаем сложные технологии понятными для образования.",
+                extra: "Раз в квартал выезжаем на совместный отдых, оплачиваем курсы и конференции."
+            },
+            {
+                id: 6,
+                name: "Гимназия №55",
+                location: "Комсомольский р-н",
+                shortDesc: "Международный бакалавриат",
+                fullDesc: "Частная гимназия с программами международного бакалавриата (IB). Двуязычная среда, стажировки за рубежом.",
+                type: "school",
+                tags: ["филологи", "историки"],
+                rating: 4.9,
+                jobs: 7,
+                website: "https://example.com/academy",
+                social: {
+                    vk: "",
+                    facebook: ""
+                },
+                specialities: ["Учитель английского", "Учитель истории (на английском)", "Коуч", "Библиотекарь"],
+                values: ["Академическая честность", "Интернациональность", "Исследования", "Эмпатия"],
+                mission: "Готовим глобальных граждан, способных менять мир.",
+                extra: "Зарплата выше средней по региону, оплата проезда на конференции, современный кампус."
+            }
+        ];
+
+        // Текущий фильтр
+        let currentFilter = 'all';
+
+        // Показать все карточки
+        function showCards(filter = 'all') {
+            const grid = document.getElementById('cardsGrid');
+            grid.innerHTML = '';
+
+            const filteredCompanies = filter === 'all' 
+                ? companies 
+                : companies.filter(c => c.type === filter);
+
+            filteredCompanies.forEach(company => {
+                const card = createCard(company);
+                grid.appendChild(card);
+            });
+        }
+
+        // Создать карточку
+        function createCard(company) {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.onclick = () => showCompanyDetails(company.id);
+
+            // Генерируем звезды рейтинга
+            const stars = '★'.repeat(Math.floor(company.rating)) + '☆'.repeat(5 - Math.floor(company.rating));
+
+            card.innerHTML = `
+                <div class="card-header">
+                    <h3>${company.name}</h3>
+                    <div class="location">📍 ${company.location}</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-tags">
+                        ${company.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                    <p class="card-desc">${company.shortDesc}</p>
+                    <div class="card-footer">
+                        <div class="rating">${stars} (${company.rating})</div>
+                        <div class="jobs-count">${company.jobs} вакансий</div>
+                    </div>
+                </div>
+            `;
+
+            return card;
+        }
+
+        // Показать детали компании
+        function showCompanyDetails(id) {
+            const company = companies.find(c => c.id === id);
+            if (!company) return;
+
+            // Заполняем заголовок модалки
+            document.getElementById('modalTitle').textContent = company.name;
+            document.getElementById('modalLocation').textContent = `📍 ${company.location}`;
+
+            // Генерируем контент
+            const modalBody = document.getElementById('modalBody');
+            
+            // Социальные ссылки
+            const socialLinks = Object.entries(company.social)
+                .map(([platform, url]) => {
+                    const icons = { vk: 'VK', tg: 'Telegram', instagram: 'Instagram', facebook: 'Facebook' };
+                    return `<a href="${url}" target="_blank" class="social-link">${icons[platform] || platform}</a>`;
+                })
+                .join('');
+
+            // Специальности
+            const specialities = company.specialities
+                .map(spec => `<span class="spec-item">${spec}</span>`)
+                .join('');
+
+            // Ценности
+            const values = company.values
+                .map(value => `<span class="value-item">${value}</span>`)
+                .join('');
+
+            modalBody.innerHTML = `
+                <div class="info-block">
+                    <h4>О компании</h4>
+                    <p>${company.fullDesc}</p>
+                    ${company.extra ? `<p style="margin-top: 10px; color: #667eea;">✨ ${company.extra}</p>` : ''}
+                </div>
+
+                <div class="info-block">
+                    <h4>Ссылки</h4>
+                    <p>🌐 <a href="${company.website}" target="_blank" style="color: #667eea;">Официальный сайт</a></p>
+                    <div class="social-links">
+                        ${socialLinks}
+                    </div>
+                </div>
+
+                <div class="info-block">
+                    <h4>Востребованные специальности</h4>
+                    <div class="specs-grid">
+                        ${specialities}
+                    </div>
+                </div>
+
+                <div class="info-block">
+                    <h4>Ценности</h4>
+                    <div class="values-list">
+                        ${values}
+                    </div>
+                </div>
+
+                <div class="info-block">
+                    <h4>Миссия</h4>
+                    <div class="mission-box">
+                        ${company.mission}
+                    </div>
+                </div>
+            `;
+
+            // Меняем цвет заголовка под компанию
+            const modalHeader = document.getElementById('modalHeader');
+            const gradients = [
+                'linear-gradient(135deg, #667eea, #764ba2)',
+                'linear-gradient(135deg, #f093fb, #f5576c)',
+                'linear-gradient(135deg, #4facfe, #00f2fe)',
+                'linear-gradient(135deg, #43e97b, #38f9d7)',
+                'linear-gradient(135deg, #fa709a, #fee140)',
+                'linear-gradient(135deg, #30cfd0, #330867)'
+            ];
+            modalHeader.style.background = gradients[(id - 1) % gradients.length];
+
+            // Показываем модалку
+            document.getElementById('companyModal').style.display = 'block';
+        }
+
+        // Закрыть модалку
+        function closeModal() {
+            document.getElementById('companyModal').style.display = 'none';
+        }
+
+        // Фильтрация компаний
+        function filterCompanies(type) {
+            currentFilter = type;
+            
+            // Обновляем активную кнопку
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            showCards(type);
+        }
+
+        // Поиск компаний
+        function searchCompanies() {
+            const searchText = document.getElementById('searchInput').value.toLowerCase();
+            
+            const filtered = companies.filter(company => 
+                company.name.toLowerCase().includes(searchText) ||
+                company.shortDesc.toLowerCase().includes(searchText) ||
+                company.tags.some(tag => tag.toLowerCase().includes(searchText))
+            );
+
+            const grid = document.getElementById('cardsGrid');
+            grid.innerHTML = '';
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<p style="text-align: center; grid-column: 1/-1; padding: 50px;">Ничего не найдено 😢</p>';
+            } else {
+                filtered.forEach(company => {
+                    const card = createCard(company);
+                    grid.appendChild(card);
+                });
+            }
+        }
+
+        // Закрыть модалку по клику вне окна
+        window.onclick = function(event) {
+            const modal = document.getElementById('companyModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        };
+
+        // Инициализация
+        showCards();
+
+        // Добавляем поиск по Enter
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchCompanies();
+            }
+        });
+    </script>
+</body>
+</html>
